@@ -1,5 +1,3 @@
-?>
-
 <?php
 $phone = $_POST["phonenumber"];
 if ($phone == "139") {
