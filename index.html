@@ -56,7 +56,7 @@
 		    	xhr.onreadystatechange = function(){
 		    		if (xhr.readyState==4) {
 		    			if (xhr.status == 200) {
-		    				var xhr.responseText;
+		    				var result=xhr.responseText;
 		    				result=JSON.parse(result);
 		    				var phone_result=document.querySelector("#phone_result");
 		    		        if (result.status=0) {
