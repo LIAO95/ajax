@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>注册页面</title>
+	<script type="text/javascript">
+		window.onload = function(){
+			var username = document.querySelector("#username");
+			var email = document.querySelector("#email");
+			var phone = document.querySelector("#phone");
+		    
+		    username.onblur = function(){
+		    	var usernameValue = username.value;
+		    	// usernameValue交给服务器，用服务器进行唯一的校验；
+
+		    	// 1.创建对象，兼容处理
+		    	var xhr = null;
+		    	if (window.XMLHttpRequest) {
+		    		xhr = new XMLHttpRequest();
+		    	}else{
+		    		xhr = new ActiveXObject("Microsoft.XMLHTTP");
+		    	}
+		    	// 2.准备发送
+		    	xhr.open("get","./sever/sever.php?username=" + usernameValue,true);
+		    	// 3.执行发送
+		    	xhr.send(null);
+		    	// 4.指定回调函数
+		    	xhr.onreadystatechange = function(){
+		    		if (xhr.readyState == 4) {
+		    			if (xhr.status == 200) {
+		    				var result = xhr.responseText;
+		    				var username_result = document.querySelector("#username_result");
+		    				if (result == "ok") {
+		    					username_result.innerText = "用户名可以使用";
+		    				}else{
+		    					username_result.innerText = "用户名已经被注册";
+		    				}
+		    			}
+		    		}
+		    	};
+		    };
+
+		    phone.onblur = function(){
+		    	var phoneValue = phone.value;
+		    	 // 1234
+		    	var xhr = null;
+		    	if (window.XMLHttpRequest) {
+		    		xhr = new XMLHttpRequest();
+		    	}else{
+		    	    xhr = new ActiveXObject("Microsoft.XMLHTTP");	
+		    	}
+		    	xhr.open("post","sever/sever_phone.php",true);
+		    	var params = "phonenumber="+phoneValue;
+		    	xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+		    	xhr.send(params);
+		    	xhr.onreadystatechange = function(){
+		    		if (xhr.readyState==4) {
+		    			if (xhr.status == 200) {
+		    				var xhr.responseText;
+		    				result=JSON.parse(result);
+		    				var phone_result=document.querySelector("#phone_result");
+		    		        if (result.status=0) {
+		    		        	phone_result.innerText=result.message.tips +","+result.message.phonefrom;
+		    		        }else if(result.status=1){
+                                phone.result.innerText = result.message;
+		    			}
+
+		    				
+		    			
+		    		}
+		    	}
+		    };
+		};
+	</script>
+</head>
+
+<body>
+	<h3>注册页面</h3>
+	<form action="" >
+		用户名：<input type="text" id="username"><span id="username_result"></span><br>
+		邮箱：<input type="text" id="email"><span id="email_result"></span><br>
+		手机号码：<input type="text" id="phone"><span id="phone_result"></span><br>
+	</form>
+</body>
+
+
+
+</html>
